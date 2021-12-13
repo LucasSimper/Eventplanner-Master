@@ -52,13 +52,14 @@ const singleEventScreen = ({ route, navigation }) => {
   // Vi spørger brugeren om han er sikker
   const confirmDelete = () => {
     /*Er det mobile?*/
-    console.log("penis");
-    Alert.alert("Are you sure?", "Do you want to delete the event?", [
-      { text: "Cancel", style: "cancel" },
-      // Vi bruger this.handleDelete som eventHandler til onPress
-      { text: "Delete", style: "destructive", onPress: () => handleDelete() },
-    ]);
-  };
+    if(Platform.OS ==='ios' || Platform.OS ==='android'){
+        Alert.alert('Are you sure?', 'Do you want to delete the car?', [
+            { text: 'Cancel', style: 'cancel' },
+            // Vi bruger this.handleDelete som eventHandler til onPress
+            { text: 'Delete', style: 'destructive', onPress: () => handleDelete() },
+        ]);
+    }
+};
 
   // Vi sletter det aktuelle event
   const handleDelete = () => {
@@ -90,7 +91,22 @@ const singleEventScreen = ({ route, navigation }) => {
       const key = Object.keys(usersSnapshot.val());
       const test = Object.values(usersSnapshot.val());
       handleInvite(key,test,usersSnapshot.val());
+      Alert.alert(
+        "Success",
+        "User has been invited",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+
     } else {
+      Alert.alert(
+        "Error",
+        "No user with this email found",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
       console.log("No user with that email found"); // put Alert here
     }
   }
@@ -117,6 +133,7 @@ const singleEventScreen = ({ route, navigation }) => {
           update(ref(db, `events/${route.params.id}`), {
             Invited: eventArray,
           });
+          setEmail("");
         });
     });
   };
@@ -129,14 +146,13 @@ const singleEventScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Button title="Edit" onPress={() => handleEdit()} />
-      <Button title="Delete" onPress={() => handleDelete()} />
+      <Button title="Delete" onPress={() => confirmDelete()} />
 
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -158,7 +174,7 @@ const singleEventScreen = ({ route, navigation }) => {
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Close</Text>
             </Pressable>
           </View>
         </View>

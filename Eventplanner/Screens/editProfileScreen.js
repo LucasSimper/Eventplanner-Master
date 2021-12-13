@@ -1,80 +1,58 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
-  Button,
+  StyleSheet,
   Text,
   View,
+  Image,
+  TouchableOpacity,
+  Button,
   TextInput,
-  ActivityIndicator,
-  StyleSheet,
 } from "react-native";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 
 import { getDatabase, ref, push, set } from "firebase/database";
 
-function editProfile({ navigation }) {
 
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [location, setLocation] = useState("");
-  const [isCompleted, setCompleted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+const auth = getAuth();
+const user = auth.currentUser;
+
+function editProfileScreen({navigation}) {
+  const [displayName, setDisplayName] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
 
   const renderButton = () => {
-    return <Button onPress={() => handleSubmit()} title="Create event" />;
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const db = getDatabase();
-      const postListRef = ref(db, "events/");
-      const newPostRef = push(postListRef);
-      set(newPostRef, {
-        Description: description,
-        Time: time,
-        Date: date,
-        Location: location,
-        UserID: user.uid
-      });
-      navigation.navigate("Your Events")
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  };
-  return (
-    <View>
-      <Text style={styles.header}>New Event</Text>
-      <TextInput
-        placeholder="description"
-        value={description}
-        onChangeText={(description) => setDescription(description)}
-        style={styles.inputField}
-      />
-      <TextInput
-        placeholder="time"
-        value={time}
-        onChangeText={(time) => setTime(time)}
-        style={styles.inputField}
-      />
-      <TextInput
-        placeholder="date"
-        value={date}
-        onChangeText={(date) => setDate(date)}
-        style={styles.inputField}
-      />
-      <TextInput
-        placeholder="location"
-        value={location}
-        onChangeText={(location) => setLocation(location)}
-        style={styles.inputField}
-      />
-      {errorMessage && <Text style={styles.error}>Error: {errorMessage}</Text>}
-      {renderButton()}
-    </View>
-  );
+    return <Button onPress={() => handleSubmit()} title = "Update Profile" />; 
 }
+
+const handleSubmit = async () => {
+  updateProfile(auth.currentUser, {
+    displayName: displayName, 
+    photoURL: photoURL
+  }).then(() => {
+    
+  }).catch((error) => {
+    // An error occurred
+  });
+}
+return (
+  <View>
+    <Text style={styles.header}>New Event</Text>
+    <TextInput
+      placeholder="Display Name"
+      value={displayName}
+      onChangeText={(displayName) => setDisplayName(displayName)}
+      style={styles.inputField}
+    />
+    <TextInput
+      placeholder="ImageURL"
+      value={photoURL}
+      onChangeText={(photoURL) => setPhotoURL(photoURL)}
+      style={styles.inputField}
+    />
+    {renderButton()}
+    </View>
+    
+)}
 
 const styles = StyleSheet.create({
   error: {
@@ -90,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default editProfile;
+export default editProfileScreen;
