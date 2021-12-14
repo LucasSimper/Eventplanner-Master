@@ -38,6 +38,7 @@ function upComingScreen({ navigation }) {
   const auth = getAuth();
   const user = auth.currentUser;
   const [eventsUpcoming, setEventsUpcoming] = useState([]);
+  const [eventsOwn, setEventsOwn] = useState([]);
   const db = getDatabase();
   const dbRef = ref(getDatabase());
   //const [eventArray, setEventArray] = useState([]);
@@ -53,7 +54,7 @@ function upComingScreen({ navigation }) {
     []
   );
 
-  const refreshUpcoming = () => {
+  const refreshUpcoming = async () => {
     get(child(dbRef, `users/${user.uid}/Going`)).then((snapshot) => {
       console.log(snapshot.val());
       snapshot.val().forEach((eventID) => {
@@ -63,12 +64,7 @@ function upComingScreen({ navigation }) {
               console.log(snapshot.val());
               //setEventKeys(eventID);
               setEventsUpcoming((eventsUpcoming) => [...eventsUpcoming, snapshot.val()]);
-              /*const valueArray = Object.values(events);
-              const keyArray = Object.keys(events);
-              console.log(valueArray);
-              console.log(keyArray);
-              setEventArray((eventArray) => [...eventArray, valueArray]);
-              setEventKeys((eventKeys) => [...eventKeys, keyArray]); */
+
             } else {
               console.log("No data available");
             }
@@ -77,10 +73,20 @@ function upComingScreen({ navigation }) {
             console.error(error);
           });
       });
-    });
+    })
+    const ownEventsQuery = query(
+      ref(db, "events"),
+      orderByChild("UserID"),
+      equalTo(user.uid)
+    );
+    const ownEventsArray = await get(ownEventsQuery);
+    setEventsOwn(ownEventsArray.val());
+    setEventsUpcoming((eventsUpcoming) => [...eventsUpcoming, eventsOwn]);
+    
   };
 
   useEffect(() => console.log(eventsUpcoming), console.log(eventKeys), [eventsUpcoming]);
+  useEffect(() => console.log(eventsOwn), [eventsOwn]);
 
   // Vi viser ingenting hvis der ikke er data
   if (!eventsUpcoming) {

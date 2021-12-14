@@ -21,10 +21,12 @@ function profileScreen({ navigation }) {
           ),
         });
       }, [navigation]);
+
       
+const auth = getAuth();
+const user = auth.currentUser;
 
 
-  const auth = getAuth();
   const handleLogOut = async () => {
     await signOut(auth)
       .then(() => {
@@ -43,23 +45,17 @@ function profileScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <Image
         style={styles.avatar}
-        source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
+        source={{ uri: user.photoURL }}
       />
       <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <Text style={styles.name}>John Doe</Text>
-          <Text style={styles.info}>UX Designer / Mobile developer</Text>
-          <Text style={styles.description}>
-            Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum
-            electram expetendis, omittam deseruisse consequuntur ius an,
-          </Text>
+          <Text style={styles.name}> {user.displayName} </Text>
+          <Text style={styles.info}> {user.email} </Text>
           <TouchableOpacity style={styles.buttonContainer} onPress={() => handleLogOut()}>
-            <Text>Log Out</Text>
+          <Text>Log Out</Text>
           </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -87,7 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   body: {
-    marginTop: 40,
+    marginTop: 80,
   },
   bodyContent: {
     flex: 1,
@@ -96,14 +92,15 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 28,
-    color: "#696969",
+
     fontWeight: "600",
     marginTop: 65,
+    alignSelf: "center",
   },
   info: {
     fontSize: 16,
-    color: "#00BFFF",
     marginTop: 20,
+    alignSelf: "center",
   },
   description: {
     fontSize: 16,
@@ -121,6 +118,7 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 30,
     backgroundColor: "#00BFFF",
+    alignSelf: "center",
   },
 });
 

@@ -7,14 +7,11 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
+  Alert
 } from "react-native";
 import { getAuth, updateProfile } from "firebase/auth";
 
 import { getDatabase, ref, push, set } from "firebase/database";
-
-
-const auth = getAuth();
-const user = auth.currentUser;
 
 function editProfileScreen({navigation}) {
   const [displayName, setDisplayName] = useState("");
@@ -25,10 +22,23 @@ function editProfileScreen({navigation}) {
 }
 
 const handleSubmit = async () => {
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+
   updateProfile(auth.currentUser, {
     displayName: displayName, 
     photoURL: photoURL
   }).then(() => {
+    navigation.goBack();
+    Alert.alert(
+      "Success",
+      "Profile has been edited",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
     
   }).catch((error) => {
     // An error occurred
@@ -36,7 +46,7 @@ const handleSubmit = async () => {
 }
 return (
   <View>
-    <Text style={styles.header}>New Event</Text>
+    <Text style={styles.header}>Edit Profile</Text>
     <TextInput
       placeholder="Display Name"
       value={displayName}

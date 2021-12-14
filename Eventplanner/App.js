@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, Pressable } from "react-native";
+import { StyleSheet, Text, View, Button, Pressable, KeyboardAvoidingView, Platform, LogBox} from "react-native";
 import firebase from "firebase/compat/app";
 import { initializeApp } from "firebase/app";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,9 +11,7 @@ import { Card } from "react-native-paper";
 import { getAuth } from "firebase/auth";
 import stackNavigatorProfile from "./Screens/stackNavigatorProfile";
 import stackNavigatorEvents from "./Screens/stackNavigatorEvents";
-import upComingScreen from "./Screens/upcomingEventsScreen";
-
-const Tab = createBottomTabNavigator();
+LogBox.ignoreAllLogs();
 
 const firebaseConfig = {
   apiKey: "AIzaSyBD-8PCupSRRA4-EkKB1YH7iHu5tmgp-J4",
@@ -31,6 +29,8 @@ export default function App() {
   if (!firebase.apps.length) {
     initializeApp(firebaseConfig);
   }
+
+  const Tab = createBottomTabNavigator();
 
   const [user, setUser] = useState({ loggedIn: false });
 
@@ -53,7 +53,10 @@ export default function App() {
 
   const GuestPage = () => {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
         <Text style={styles.paragraph}>
           Opret eller Login med din firebase Email
         </Text>
@@ -65,7 +68,7 @@ export default function App() {
         <Card style={{ padding: 20 }}>
           <LoginForm />
         </Card>
-      </View>
+      </KeyboardAvoidingView>
     );
   };
 
@@ -84,7 +87,7 @@ export default function App() {
             component={stackNavigatorEvents}
           />
           <Tab.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, unmountOnBlur: true }}
             name="Profile"
             component={stackNavigatorProfile}
           />
