@@ -32,7 +32,7 @@ const editEventScreen = ({ route, navigation }) => {
   useEffect(() => {
     const Event = route.params.event[1];
     setNewEvent(Event);
-    console.log(Event);
+    //console.log(Event);
     /*Fjern data, når vi går væk fra screenen*/
     return () => {
       setNewEvent(initialState);
@@ -56,7 +56,7 @@ const editEventScreen = ({ route, navigation }) => {
       Private,
     } = newEvent;
     const id = route.params.event[0];
-    console.log(id);
+    //console.log(id);
     try {
         update(ref(db,`/events/${id}` ),{Name,
             ImageURL,

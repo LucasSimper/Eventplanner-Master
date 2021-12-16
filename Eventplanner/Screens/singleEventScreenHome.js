@@ -38,15 +38,15 @@ const singleEventScreenHome = ({ route, navigation }) => {
     setEvent(route.params.event[1]);
     setID(route.params.id);
     const eventGoing = route.params.event[1];
-    console.log(eventGoing);
+    //console.log(eventGoing);
     if (eventGoing.UserID.includes(user.uid)) {
       setGoing(1);
     } else if (eventGoing.Going.includes(user.uid)) {
       setGoing(2);
-      console.log("true");
+      //console.log("true");
     } else {
       setGoing(3);
-      console.log("false");
+      //console.log("false");
     }
     /*Når vi forlader screen, tøm object*/
     return () => {
@@ -61,10 +61,10 @@ const singleEventScreenHome = ({ route, navigation }) => {
     const userArray = [];
     get(child(dbRef, `events/${route.params.id}/Going`))
       .then((snapshot) => {
-        console.log(snapshot.val());
+        //console.log(snapshot.val());
         preArray.push.apply(preArray, snapshot.val());
-        console.log(preArray);
-        console.log(user.uid);
+        //console.log(preArray);
+        //console.log(user.uid);
       })
       .then(() => {
         preArray.push(user.uid);
@@ -76,10 +76,10 @@ const singleEventScreenHome = ({ route, navigation }) => {
       .then(() => {
         get(child(dbRef, `users/${user.uid}/Going`))
         .then((snapshot) => {
-          console.log(snapshot.val());
+          //console.log(snapshot.val());
           userArray.push.apply(userArray, snapshot.val());
-          console.log(userArray);
-          console.log(user.uid);
+          //console.log(userArray);
+          //console.log(user.uid);
         })
         .then(() => {
           userArray.push(route.params.id);
@@ -95,7 +95,7 @@ const singleEventScreenHome = ({ route, navigation }) => {
     const userArray = [];
     get(child(dbRef, `events/${route.params.id}/Going`))
       .then((snapshot) => {
-        console.log(snapshot.val());
+        //console.log(snapshot.val());
         preArray.push.apply(preArray, snapshot.val());
       })
       .then(() => {
@@ -109,7 +109,7 @@ const singleEventScreenHome = ({ route, navigation }) => {
       .then(() => {
         get(child(dbRef, `users/${user.uid}/Going`))
         .then((snapshot) => {
-          console.log(snapshot.val());
+          //console.log(snapshot.val());
           userArray.push.apply(userArray, snapshot.val());
         })
         .then(() => {

@@ -26,9 +26,9 @@ function signUpForm() {
            await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user.uid);
+            //console.log(user.uid);
             const db = getDatabase();
-            console.log(db);
+            //console.log(db);
             try {set(ref(db, "users/" + user.uid), {
                 Invited: [1],
                 Going: [1],

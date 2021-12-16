@@ -53,7 +53,7 @@ const yourEventsScreen = ({ navigation }) => {
     const usersSnapshotHome = await get(yourEventQuery);
 
     if (usersSnapshotHome.val() !== null) {
-      console.log(usersSnapshotHome.val());
+      //console.log(usersSnapshotHome.val());
       setEventsHome(usersSnapshotHome.val());
     } else {
       console.log("No data"); // put Alert here

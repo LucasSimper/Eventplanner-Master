@@ -34,11 +34,11 @@ import {
     useEffect(() => {
         get(child(dbRef, `users/${user.uid}/Invited`))
         .then((snapshot) => {
-            console.log(snapshot.val());
+            //console.log(snapshot.val());
             snapshot.val().forEach(eventID => {
                 get(child(dbRef, `events/${eventID}`)).then((snapshot) => {
                     if (snapshot.exists()) {
-                      console.log(snapshot.val());
+                      //console.log(snapshot.val());
                       setEvents(events => [...events, snapshot.val()]);
                     } else {
                       console.log("No data available");
@@ -61,7 +61,7 @@ import {
       const event = Object.entries(events).find(
         (event) => event[0] === id /*id*/
       );
-      console.log(id);
+      //console.log(id);
       navigation.navigate("Single Event Page Invite (Events)", { event , id });
     };
   

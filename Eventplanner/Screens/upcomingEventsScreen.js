@@ -56,24 +56,24 @@ function upComingScreen({ navigation }) {
 
   const refreshUpcoming = async () => {
     get(child(dbRef, `users/${user.uid}/Going`)).then((snapshot) => {
-      console.log(snapshot.val());
+      //console.log(snapshot.val());
       snapshot.val().forEach((eventID) => {
         get(child(dbRef, `events/${eventID}`))
           .then((snapshot) => {
             if (snapshot.exists()) {
-              console.log(snapshot.val());
+              //console.log(snapshot.val());
               //setEventKeys(eventID);
               setEventsUpcoming((eventsUpcoming) => [...eventsUpcoming, snapshot.val()]);
 
             } else {
-              console.log("No data available");
+              //console.log("No data available");
             }
           })
           .catch((error) => {
             console.error(error);
           });
       });
-    })
+    }) /*
     const ownEventsQuery = query(
       ref(db, "events"),
       orderByChild("UserID"),
@@ -81,12 +81,12 @@ function upComingScreen({ navigation }) {
     );
     const ownEventsArray = await get(ownEventsQuery);
     setEventsOwn(ownEventsArray.val());
-    setEventsUpcoming((eventsUpcoming) => [...eventsUpcoming, eventsOwn]);
+    setEventsUpcoming((eventsUpcoming) => [...eventsUpcoming, eventsOwn]); */
     
   };
 
-  useEffect(() => console.log(eventsUpcoming), console.log(eventKeys), [eventsUpcoming]);
-  useEffect(() => console.log(eventsOwn), [eventsOwn]);
+  //useEffect(() => console.log(eventsUpcoming), console.log(eventKeys), [eventsUpcoming]);
+  //useEffect(() => console.log(eventsOwn), [eventsOwn]);
 
   // Vi viser ingenting hvis der ikke er data
   if (!eventsUpcoming) {
@@ -98,7 +98,7 @@ function upComingScreen({ navigation }) {
     const event = Object.entries(eventsUpcoming).find(
       (event) => event[0] === id /*id*/
     );
-    console.log(id);
+    //console.log(id);
     navigation.navigate("Single Event Page Upcoming (Events)", { event, id });
   };
 

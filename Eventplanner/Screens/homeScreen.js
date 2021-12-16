@@ -55,7 +55,7 @@ function homeScreen({ navigation }) {
     const usersSnapshotHome = await get(yourEventQuery);
 
     if (usersSnapshotHome.val() !== null) {
-      console.log(usersSnapshotHome.val());
+      //console.log(usersSnapshotHome.val());
       setEvents(usersSnapshotHome.val());
     } else {
       console.log("No data"); // put Alert here
@@ -72,7 +72,7 @@ function homeScreen({ navigation }) {
     const event = Object.entries(events).find(
       (event) => event[0] === id /*id*/
     );
-    console.log(id);
+    //console.log(id);
     navigation.navigate("Single Event Page (Home)", { event, id });
   };
 
@@ -80,8 +80,8 @@ function homeScreen({ navigation }) {
   const eventArray = Object.values(events);
   const eventKeys = Object.keys(events);
 
-  console.log(eventArray);
-  console.log(eventKeys);
+  //console.log(eventArray);
+  //console.log(eventKeys);
 
   const Item = ({ title, picture, date, time, index }) => (
     <View style={styles.item}>

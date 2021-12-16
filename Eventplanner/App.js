@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, Pressable, KeyboardAvoidingView, Platform, LogBox} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+  LogBox,
+  Image,
+} from "react-native";
 import firebase from "firebase/compat/app";
 import { initializeApp } from "firebase/app";
 import { NavigationContainer } from "@react-navigation/native";
@@ -54,9 +64,17 @@ export default function App() {
   const GuestPage = () => {
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <Image
+          source={{
+            uri: "https://cdn.discordapp.com/attachments/702799189351858220/920318075318960208/unknown.png",
+          }}
+          style={{ width: 180, height: 180, alignSelf: "center"}}
+          resizeMode="contain"
+        />
+
         <Text style={styles.paragraph}>
           Opret eller Login med din firebase Email
         </Text>
@@ -82,7 +100,7 @@ export default function App() {
             component={stackNavigator}
           />
           <Tab.Screen
-            options={{ headerShown: false , unmountOnBlur: true}}
+            options={{ headerShown: false, unmountOnBlur: true }}
             name="Upcoming Events"
             component={stackNavigatorEvents}
           />
@@ -103,12 +121,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: "5%",
+    paddingTop: 5,
     backgroundColor: "transparent",
-    padding: 20,
+    padding: 15,
   },
   paragraph: {
-    margin: 24,
+    margin: 5,
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",

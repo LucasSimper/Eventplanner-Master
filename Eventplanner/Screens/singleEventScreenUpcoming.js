@@ -39,12 +39,12 @@ const singleEventScreenUpcoming = ({ route, navigation }) => {
     setEvent(route.params.event[1]);
     setID(route.params.id);
     const eventGoing = route.params.event[1];
-    console.log(eventGoing);
+    //console.log(eventGoing);
     if (eventGoing.UserID.includes(user.uid)) {
       setGoing(1);
     } else {
       setGoing(2);
-      console.log("true");
+      //console.log("true");
     }
     /*Når vi forlader screen, tøm object*/
     return () => {
@@ -52,7 +52,7 @@ const singleEventScreenUpcoming = ({ route, navigation }) => {
     };
   }, []);
 
-  useEffect(() => console.log(event), [event]);
+  //useEffect(() => console.log(event), [event]);
 
   const getID = async () => {
     const idQuery = query(
@@ -62,7 +62,7 @@ const singleEventScreenUpcoming = ({ route, navigation }) => {
       );
     const idSnapshot = await get(idQuery)
         const key = Object.keys(idSnapshot.val());
-        console.log(key);
+        //console.log(key);
         setNotGoingFunc(key);
     }
 
@@ -72,14 +72,14 @@ const singleEventScreenUpcoming = ({ route, navigation }) => {
 
     get(child(dbRef, `events/${key}/Going`))
       .then((snapshot) => {
-        console.log(snapshot.val());
+        //console.log(snapshot.val());
         preArray.push.apply(preArray, snapshot.val());
-        console.log(preArray);
+        //console.log(preArray);
       })
       .then(() => {
         const index = preArray.indexOf(user.uid);
         preArray.splice(index, 1);
-        console.log(preArray);
+        //console.log(preArray);
         update(ref(db, `events/${key}`), {
           Going: preArray,
         });
@@ -87,14 +87,14 @@ const singleEventScreenUpcoming = ({ route, navigation }) => {
       .then(() => {
         get(child(dbRef, `users/${user.uid}/Going`))
         .then((snapshot) => {
-          console.log(snapshot.val());
+          //console.log(snapshot.val());
           userArray.push.apply(userArray, snapshot.val());
-          console.log(userArray);
+          //console.log(userArray);
         })
         .then(() => {
           const index = userArray.indexOf(key);
           userArray.splice(index, 1);
-          console.log(userArray);
+          //console.log(userArray);
           update(ref(db, `users/${user.uid}`), {
             Going: userArray,
           });
